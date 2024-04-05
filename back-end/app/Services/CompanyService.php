@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTO\CompanyDTO;
 use App\Models\Company;
 use App\Repositories\CompanyRepositoryInterface;
 use App\Repositories\CompanyRequestRepositoryInterface;
@@ -14,39 +15,63 @@ class CompanyService implements CompanyServiceInterface
 
     public function __construct(
         CompanyRepositoryInterface $companyRepository,
-        // CompanyRequestRepositoryInterface $companyRequestRepository
+        CompanyRequestRepositoryInterface $companyRequestRepository
     ) {
         $this->companyRepository = $companyRepository;
-        // $this->companyRequestRepository = $companyRequestRepository;
+        $this->companyRequestRepository = $companyRequestRepository;
     }
 
-    public function recruitWorker(Company $company, int $workerId): void
+    public function createCompany(CompanyDTO $companyDTO)
     {
-        $this->companyRepository->addWorker($company, $workerId);
+        return $this->companyRepository->create($companyDTO);
     }
 
-    public function upgradeWorkerToStaff(Company $company, int $workerId): void
+    public function recruitWorker($companyId, $workerId): void
     {
-        $this->companyRepository->upgradeWorkerToStaff($company, $workerId);
+        $this->companyRepository->addWorkerToCompany($companyId, $workerId);
     }
 
-    public function acceptNewWorker(Company $company, int $workerId): void
+    public function upgradeWorkerToStaff($companyId, $workerId): void
     {
-        $this->companyRepository->acceptNewWorker($company, $workerId);
+        $this->companyRepository->changeWorkerRoleToStaff($companyId, $workerId);
     }
 
-    public function updateCompanyProfile(Company $company, array $data): Company
+    public function acceptNewWorker($companyId, $workerId): void
     {
-        return $this->companyRepository->update($company->id, $data);
+        $this->companyRepository->changeWorkerRoleToStaff($companyId, $workerId);
     }
 
-    public function manageWorkers(Company $company)
+    public function updateCompanyProfile($companyId, CompanyDTO $companyDTO): Company
     {
-        return $this->companyRepository->getWorkers($company);
+        return $this->companyRepository->updateCompany($companyId, $companyDTO);
     }
 
-    // public function sendRequestToStartCompany(int $userId): void
-    // {
-    //     $this->companyRequestRepository->createCompanyRequest($userId);
-    // }
+    public function manageWorkers($companyId)
+    {
+        return $this->companyRepository->getCompanyWorkers($companyId);
+    }
+
+    public function sendRequestToStartCompany($userId): bool
+    {
+        if ($this->companyRequestRepository->requestExistsForUser($userId)) {
+            return false;
+        }
+
+        $this->companyRequestRepository->createCompanyRequest($userId);
+        return true;
+    }
+
+    public function getServiceStatistics($companyId): Collection
+    {
+        $company = Company::findOrFail($companyId);
+        $services = $company->services()->get();
+
+        $averagePrice = $services->avg('price');
+        $totalServices = $services->count();
+
+        return collect([
+            'average_price' => $averagePrice,
+            'total_services' => $totalServices,
+        ]);
+    }
 }

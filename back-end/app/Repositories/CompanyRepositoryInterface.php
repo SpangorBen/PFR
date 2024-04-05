@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\DTO\CompanyDTO;
+
 interface CompanyRepositoryInterface
 {
     public function addWorkerToCompany($companyId, $workerId);
@@ -10,7 +12,7 @@ interface CompanyRepositoryInterface
 
     public function acceptWorkerRequest($companyId, $workerId);
 
-    public function updateCompany($companyId, array $data);
+    public function updateCompany($companyId, CompanyDTO $companyDTO);
 
     public function getCompanyWorkers($companyId);
 }

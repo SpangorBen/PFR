@@ -20,7 +20,7 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->boolean('is_verified')->default(false);
             $table->foreignId('company_id')->nullable()->constrained('companies')->onDelete('cascade');
-            $table->foreignId('role_id')->nullable()->constrained('roles')->onDelete('cascade');
+            $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
         });
     }
 

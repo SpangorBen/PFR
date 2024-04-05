@@ -7,6 +7,7 @@ use App\DTO\ServiceDTO;
 use App\Http\Requests\CreateServiceRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class ServiceController extends Controller
@@ -36,9 +37,11 @@ class ServiceController extends Controller
         if (Gate::denies('manage', Service::class)) {
             abort(403, 'Unauthorized');
         }
-        $serviceDTO = ServiceDTO::fromRequest($request->validated());
+
+        $userId = Auth::id();
+        $serviceDTO = ServiceDTO::fromRequest(array_merge($request->validated(), ['user_id' => $userId]));
         $service = $this->serviceService->create($serviceDTO);
-        return response()->json($service, 201);
+        return response()->json(['message' => 'Service created successfully', 'data' => $service], 201);
     }
 
     public function update(CreateServiceRequest $request, $id): JsonResponse
@@ -46,9 +49,11 @@ class ServiceController extends Controller
         if (Gate::denies('manage', Service::class)) {
             abort(403, 'Unauthorized');
         }
-        $serviceDTO = ServiceDTO::fromRequest($request->validated());
+
+        $userId = Auth::id();
+        $serviceDTO = ServiceDTO::fromRequest(array_merge($request->validated(), ['user_id' => $userId]));
         $service = $this->serviceService->update($id, $serviceDTO);
-        return response()->json($service);
+        return response()->json(['message' => 'Service updated successfully', 'data' => $service], 200);
     }
 
     public function destroy($id): JsonResponse
@@ -57,7 +62,7 @@ class ServiceController extends Controller
             abort(403, 'Unauthorized');
         }
         $this->serviceService->delete($id);
-        return response()->json(null, 204);
+        return response()->json(204);
     }
     // CRUD //
 
@@ -66,7 +71,7 @@ class ServiceController extends Controller
     public function search(Request $request): JsonResponse
     {
         $query = $request->input('query');
-        if (empty($query)){
+        if (empty($query)) {
             return response()->json(null, 404);
         }
         $searchResult = $this->serviceService->search($query);

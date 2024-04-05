@@ -14,11 +14,7 @@ class Company extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'name',
-        'owner_id',
-        'description',
-    ];
+    protected $guarded = [];
 
     public function owner()
     {
@@ -27,16 +23,17 @@ class Company extends Model
 
     public function staff()
     {
-        return $this->hasMany(User::class)->where('role_id', Role::STAFF);
+        return $this->hasMany(User::class)->where('role_id', Role::STAFF_ID);
     }
 
     public function workers()
     {
-        return $this->hasMany(User::class)->where('role_id', Role::WORKER);
+        return $this->hasMany(User::class)
+            ->whereIn('role_id', [Role::WORKER_ID, Role::STAFF_ID]);
     }
 
     public function services()
     {
-        return $this->hasMany(Service::class);
+        return $this->hasManyThrough(Service::class, User::class);
     }
 }
