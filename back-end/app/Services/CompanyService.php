@@ -61,17 +61,16 @@ class CompanyService implements CompanyServiceInterface
         return true;
     }
 
-    public function getServiceStatistics($companyId): Collection
+    public function getServiceStatistics($companyId)
     {
-        $company = Company::findOrFail($companyId);
-        $services = $company->services()->get();
+        $services = $this->companyRepository->getServicesByCompanyId($companyId);
 
         $averagePrice = $services->avg('price');
         $totalServices = $services->count();
 
-        return collect([
+        return [
             'average_price' => $averagePrice,
             'total_services' => $totalServices,
-        ]);
+        ];
     }
 }

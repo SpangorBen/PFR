@@ -53,5 +53,11 @@ class CompanyRepository implements CompanyRepositoryInterface
     {
         return Company::findOrFail($companyId)->workers;
     }
+
+    public function getServicesByCompanyId($companyId)
+    {
+        $company = Company::findOrFail($companyId);
+        return $company->services()->get();
+    }
     
 }
