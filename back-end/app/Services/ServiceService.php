@@ -68,4 +68,19 @@ class ServiceService implements ServiceServiceInterface
         return Service::orderBy('price', $order)
             ->get();
     }
+
+    // public function getWorkers(Service $service)
+    // {
+    //     return $service->workers;
+    // }
+
+    // public function getReservations(Service $service)
+    // {
+    //     return $service->reservations;
+    // }
+
+    // public function getCompany(Service $service)
+    // {
+    //     return $service->company;
+    // }
 }

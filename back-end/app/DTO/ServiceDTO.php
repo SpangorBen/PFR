@@ -41,4 +41,28 @@ class ServiceDTO
             'user_id' => $this->user_id,
         ];
     }
+
+    public function toModel(): Service
+    {
+        return new Service([
+            'name' => $this->name,
+            'description' => $this->description,
+            'price' => $this->price,
+            'category_id' => $this->category_id,
+            'user_id' => $this->user_id,
+        ]);
+    }
+
+    public static function fromModel(Service $service)
+    {
+        return new self(
+            $service->name,
+            $service->description,
+            $service->price,
+            $service->category_id,
+            $service->user_id
+        );
+    }
+
+    
 }
