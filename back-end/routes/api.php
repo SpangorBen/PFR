@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+//Auth
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('register', 'register');
@@ -29,6 +30,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('refresh', 'refresh');
 });
 
+//Services
 Route::middleware('auth:api')->group(function () {
     Route::get('/services', [ServiceController::class, 'index']);
     Route::get('/services/{id}', [ServiceController::class, 'show']);
@@ -41,7 +43,7 @@ Route::post('/services/search', [ServiceController::class, 'search']);
 Route::post('/services/filterByCategory', [ServiceController::class, 'filterByCategory']);
 Route::post('/services/sortByPrice', [ServiceController::class, 'sortByPrice']);
 
-
+//Company
 Route::post('/company', [CompanyController::class, 'store']);
 Route::patch('/company/{id}', [CompanyController::class, 'recruitWorker']);
 Route::patch('/companies/{companyId}/workers/{workerId}/upgrade-to-staff', [CompanyController::class, 'upgradeWorkerToStaff']);
@@ -51,7 +53,14 @@ Route::get('/companies/{companyId}/workers', [CompanyController::class, 'manageW
 Route::get('/companies/{companyId}/service-statistics', [CompanyController::class, 'getServiceStatistics']);
 Route::post('/companies/request-to-start', [CompanyController::class, 'sendRequestToStartCompany']);
 
+//Admin
 Route::get('admin/all-requests', [AdminController::class, 'displayCompanyrequest']);
 Route::put('/admin/accept-company/{id}', [AdminController::class, 'acceptCompanyRequest']);
 Route::put('/admin/decline-company/{id}', [AdminController::class, 'declineCompanyRequest']);
 
+//Reservations
+Route::post('/reservations', [ReservationController::class, 'create']);
+Route::put('/reservations/{id}', [ReservationController::class, 'update']);
+Route::delete('/reservations/{id}', [ReservationController::class, 'delete']);
+Route::get('/reservations/{id}', [ReservationController::class, 'show']);
+Route::get('/reservations', [ReservationController::class, 'index']);

@@ -12,10 +12,11 @@ class CreateNewService extends Command
 
     public function handle()
     {
-        $name = $this->argument('name');
+        $name = $this->argument('name'). 'Service';
         $servicePath = app_path('Services/' . $name . '.php');
-        $interfacePath = app_path('Services/' . $name . 'Interface.php');
-        $repositoryName = $name . 'Repository';
+        $interfacePath = app_path('Services/' . $name . 'Service.php');
+        $repositoryNameInterface = $this->argument('name'). 'RepositoryInterface';
+        $repositoryName = $this->argument('name'). 'Repository';
         $thiss = '$this->'. lcfirst($repositoryName);
 
 
@@ -27,7 +28,7 @@ class CreateNewService extends Command
         $interfaceTemplate = "<?php\n\nnamespace App\Services;\n\ninterface " . $name . "Interface\n{\n    // Define your service interface methods here\n}\n";
         // $serviceTemplate = "<?php\n\nnamespace App\Services;\n\nuse App\Repositories\\" . $repositoryName . ";\n\nclass " . $name . "Service implements " . $name . "ServiceInterface\n{\n    protected $" . strtolower($repositoryName) . ";\n\n    public function __construct(" . $repositoryName . " $" . strtolower($repositoryName) . ")\n    {\n        $this->" . strtolower($repositoryName) . " = $" . strtolower($repositoryName) . ";\n    }\n\n    // Implement your service logic here\n}\n";
 
-        $serviceTemplate = "<?php\n\nnamespace App\Services;\nuse App\Repositories\\$repositoryName;\n\nclass " . $name . " implements " . $name . "Interface\n{\n\tprotected $".lcfirst($repositoryName).";\n\n\tpublic function __construct($repositoryName $".lcfirst($repositoryName)."){\n\t\t$thiss = $".lcfirst($repositoryName).";\n\t}\n\t// Implement your service logic here\n}\n";
+        $serviceTemplate = "<?php\n\nnamespace App\Services;\nuse App\Repositories\\$repositoryNameInterface;\n\nclass " . $name . " implements " . $name . "Interface\n{\n\tprotected $".lcfirst($repositoryName).";\n\n\tpublic function __construct($repositoryNameInterface $".lcfirst($repositoryName)."){\n\t\t$thiss = $".lcfirst($repositoryName).";\n\t}\n\t// Implement your service logic here\n}\n";
 
         file_put_contents($interfacePath, $interfaceTemplate);
         file_put_contents($servicePath, $serviceTemplate);
