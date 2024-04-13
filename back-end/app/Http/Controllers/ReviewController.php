@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateReviewRequest;
 use App\Services\ReviewServiceInterface;
 use App\DTO\ReviewDTO;
+use App\Http\Requests\CreateReviewRequest;
 use Illuminate\Http\JsonResponse;
 
 class ReviewController extends Controller

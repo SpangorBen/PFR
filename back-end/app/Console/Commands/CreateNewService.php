@@ -14,7 +14,7 @@ class CreateNewService extends Command
     {
         $name = $this->argument('name'). 'Service';
         $servicePath = app_path('Services/' . $name . '.php');
-        $interfacePath = app_path('Services/' . $name . 'Service.php');
+        $interfacePath = app_path('Services/' . $name . 'Interface.php');
         $repositoryNameInterface = $this->argument('name'). 'RepositoryInterface';
         $repositoryName = $this->argument('name'). 'Repository';
         $thiss = '$this->'. lcfirst($repositoryName);
