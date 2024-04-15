@@ -10,9 +10,8 @@ class Reward extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'reservation_count',
-        'discount_amount',
+        'title',
+        'cost'
     ];
 
     public function user()

@@ -23,6 +23,14 @@ class CompanyService implements CompanyServiceInterface
 
     public function createCompany(CompanyDTO $companyDTO)
     {
+        // if ($companyDTO->owner_id === null) {
+        //     return null;
+        // }
+        // if ($this->companyRepository->companyExists($companyDTO->name)) {
+        //     return null;
+        // } else {
+        //     return $this->companyRepository->create($companyDTO);
+        // }
         return $this->companyRepository->create($companyDTO);
     }
 

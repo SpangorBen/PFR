@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AwardRewardRequest;
-use App\Http\Requests\RedeemRewardRequest;
 use App\Services\RewardServiceInterface;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class RewardController extends Controller
 {
@@ -22,17 +21,26 @@ class RewardController extends Controller
         return response()->json(['data' => $rewards]);
     }
 
-    public function awardReward(AwardRewardRequest $request): JsonResponse
+    public function awardReward(Request $request): JsonResponse
     {
-        $reward = $this->rewardService->awardReward($request->validated());
+        $validatedData = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'reservation_count' => 'required|integer|min:0',
+            'discount_amount' => 'required|numeric|min:0',
+        ]);
+
+        $reward = $this->rewardService->awardReward($validatedData);
         return response()->json(['message' => 'Reward awarded successfully', 'data' => $reward], 201);
     }
 
-    public function redeemReward(RedeemRewardRequest $request): JsonResponse
+    public function redeemReward(Request $request): JsonResponse
     {
-        $discount = $this->rewardService->redeemReward($request->validated());
+        $validatedData = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'reservation_count' => 'required|integer|min:0',
+        ]);
+
+        $discount = $this->rewardService->redeemReward($validatedData);
         return response()->json(['message' => 'Reward redeemed successfully', 'discount_amount' => $discount]);
     }
-
-    
 }

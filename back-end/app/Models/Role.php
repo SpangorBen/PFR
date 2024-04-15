@@ -9,11 +9,11 @@ class Role extends Model
 {
     protected $fillable = ['name'];
 
-    const ADMIN = 1;
-    const USER = 2;
-    const WORKER_ID = 3;
+    const ADMIN = 'admin';
+    const USER = 'user';
+    const WORKER = 'worker';
     const OWNER = 'owner';
-    const STAFF_ID = 5;
+    const STAFF = 'staff';
 
     public function users()
     {

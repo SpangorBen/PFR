@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ReservationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -59,8 +60,10 @@ Route::put('/admin/accept-company/{id}', [AdminController::class, 'acceptCompany
 Route::put('/admin/decline-company/{id}', [AdminController::class, 'declineCompanyRequest']);
 
 //Reservations
-Route::post('/reservations', [ReservationController::class, 'create']);
-Route::put('/reservations/{id}', [ReservationController::class, 'update']);
-Route::delete('/reservations/{id}', [ReservationController::class, 'delete']);
-Route::get('/reservations/{id}', [ReservationController::class, 'show']);
-Route::get('/reservations', [ReservationController::class, 'index']);
+Route::middleware('auth:api', 'role:user')->group(function () {
+    Route::post('/reservations', [ReservationController::class, 'create']);
+    Route::put('/reservations/{id}', [ReservationController::class, 'update']);
+    Route::delete('/reservations/{id}', [ReservationController::class, 'delete']);
+    Route::get('/reservations/{id}', [ReservationController::class, 'show']);
+    Route::get('/reservations', [ReservationController::class, 'index']);
+});

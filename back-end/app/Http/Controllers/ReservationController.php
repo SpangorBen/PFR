@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\ReservationDTO;
+use App\Http\Requests\CreateReservationRequest;
 use App\Services\ReservationServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
@@ -15,16 +18,17 @@ class ReservationController extends Controller
         $this->reservationService = $reservationService;
     }
 
-    public function create(Request $request): JsonResponse
+    public function create(CreateReservationRequest $request): JsonResponse
     {
-        $userId = $request->user()->id;
+        // $userId = $request->user()->id;
+        $userId = auth()->user()->id;
         $reservationDTO = ReservationDTO::fromRequest($request->validated(), $userId);
         $reservation = $this->reservationService->create($reservationDTO);
         
         return response()->json(['message' => 'Reservation created successfully', 'data' => $reservation], 201);
     }
 
-    public function update(Request $request, $id): JsonResponse
+    public function update(CreateReservationRequest $request, $id): JsonResponse
     {
         $userId = $request->user()->id;
         $reservationDTO = ReservationDTO::fromRequest($request->validated(), $userId);

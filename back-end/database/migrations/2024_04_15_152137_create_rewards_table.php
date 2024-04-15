@@ -13,12 +13,9 @@ return new class extends Migration
     {
         Schema::create('rewards', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->integer('reservation_count')->default(0);
-            $table->decimal('discount_amount', 8, 2)->default(0.00);
+            $table->string('title');
+            $table->integer('cost');
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

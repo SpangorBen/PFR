@@ -23,7 +23,7 @@ class CreateReservationRequest extends FormRequest
     {
         return [
             'service_id' => 'required|exists:services,id',
-            'status' => 'required|in:pending,confirmed,canceled',
+            // 'status' => 'required|in:pending,confirmed,canceled',
         ];
     }
 }
