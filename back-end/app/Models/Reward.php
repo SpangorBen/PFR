@@ -11,11 +11,14 @@ class Reward extends Model
 
     protected $fillable = [
         'title',
-        'cost'
+        'cost',
+        'availability',
     ];
 
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class)
+                    ->withPivot('code', 'redeemed_at')
+                    ->withTimestamps();
     }
 }

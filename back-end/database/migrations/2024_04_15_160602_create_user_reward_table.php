@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('user_reward', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('reward_id')->constrained()->onDelete('cascade');
+            $table->string('code')->unique();
             $table->timestamps();
         });
     }

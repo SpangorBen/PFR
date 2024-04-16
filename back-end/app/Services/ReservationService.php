@@ -3,15 +3,17 @@
 namespace App\Services;
 
 use App\DTO\ReservationDTO;
+use App\Events\ReservationCompleted;
 use App\Repositories\ReservationRepositoryInterface;
 
 class ReservationService implements ReservationServiceInterface
 {
-	protected $reservationRepository;
+    protected $reservationRepository;
 
-	public function __construct(ReservationRepositoryInterface $reservationRepository){
-		$this->reservationRepository = $reservationRepository;
-	}
+    public function __construct(ReservationRepositoryInterface $reservationRepository)
+    {
+        $this->reservationRepository = $reservationRepository;
+    }
 
     public function create(ReservationDTO $reservationDTO)
     {
@@ -36,5 +38,17 @@ class ReservationService implements ReservationServiceInterface
     public function findAll($userId)
     {
         return $this->reservationRepository->findAll($userId);
+    }
+
+    public function markReservationAsCompleted($reservationId)
+    {
+        $reservation = $this->reservationRepository->find($reservationId);
+
+        $reservation->status = 'confirmed';
+        $reservationDTO = ReservationDTO::fromModel($reservation);
+
+        $this->reservationRepository->update($reservationId, $reservationDTO);
+
+        event(new ReservationCompleted($reservationDTO));
     }
 }

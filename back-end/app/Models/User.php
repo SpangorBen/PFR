@@ -84,4 +84,11 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Review::class);
     }
+
+    public function rewards()
+    {
+        return $this->belongsToMany(Reward::class)
+                    ->withPivot('code')
+                    ->withTimestamps();
+    }
 }

@@ -2,45 +2,54 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\RewardServiceInterface;
+use App\DTO\RewardDTO;
+use App\Http\Requests\CreateRewardRequest;
+use App\Services\RewardService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class RewardController extends Controller
 {
     protected $rewardService;
 
-    public function __construct(RewardServiceInterface $rewardService)
+    public function __construct(RewardService $rewardService)
     {
         $this->rewardService = $rewardService;
     }
 
-    public function getUserRewards($userId): JsonResponse
+    public function index(): JsonResponse
     {
-        $rewards = $this->rewardService->getUserRewards($userId);
+        $rewards = $this->rewardService->getAllRewards();
         return response()->json(['data' => $rewards]);
     }
 
-    public function awardReward(Request $request): JsonResponse
+    public function show($id): JsonResponse
     {
-        $validatedData = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'reservation_count' => 'required|integer|min:0',
-            'discount_amount' => 'required|numeric|min:0',
-        ]);
-
-        $reward = $this->rewardService->awardReward($validatedData);
-        return response()->json(['message' => 'Reward awarded successfully', 'data' => $reward], 201);
+        $reward = $this->rewardService->getRewardById($id);
+        return response()->json(['data' => $reward]);
     }
 
-    public function redeemReward(Request $request): JsonResponse
+    public function store(CreateRewardRequest $request): JsonResponse
     {
-        $validatedData = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'reservation_count' => 'required|integer|min:0',
-        ]);
+        $rewardDTO = RewardDTO::fromRequest($request->validated());
+        $reward = $this->rewardService->createReward($rewardDTO);
+        if (is_string($reward)) {
+            return response()->json(['error' => $reward], 500);
+        }
+        return response()->json(['message' => 'Reward created successfully', 'data' => $reward], 201);
+    }
 
-        $discount = $this->rewardService->redeemReward($validatedData);
-        return response()->json(['message' => 'Reward redeemed successfully', 'discount_amount' => $discount]);
+    public function update(CreateRewardRequest $request, $id): JsonResponse
+    {
+        $rewardDTO = RewardDTO::fromRequest($request->validated());
+        $this->rewardService->updateReward($id, $rewardDTO);
+
+        return response()->json(['message' => 'Reward updated successfully']);
+    }
+
+    public function destroy($id): JsonResponse
+    {
+        $this->rewardService->deleteReward($id);
+
+        return response()->json(['message' => 'Reward deleted successfully']);
     }
 }

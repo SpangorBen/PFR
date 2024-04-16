@@ -20,7 +20,6 @@ class ReservationController extends Controller
 
     public function create(CreateReservationRequest $request): JsonResponse
     {
-        // $userId = $request->user()->id;
         $userId = auth()->user()->id;
         $reservationDTO = ReservationDTO::fromRequest($request->validated(), $userId);
         $reservation = $this->reservationService->create($reservationDTO);
@@ -57,5 +56,15 @@ class ReservationController extends Controller
         $reservations = $this->reservationService->findAll($userId);
         
         return response()->json(['data' => $reservations]);
+    }
+
+    public function markAsCompleted($id): JsonResponse
+    {
+        try {
+            $this->reservationService->markReservationAsCompleted($id);
+            return response()->json(['message' => 'Reservation marked as completed successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to mark reservation as completed', 'error' => $e->getMessage()], 500);
+        }
     }
 }

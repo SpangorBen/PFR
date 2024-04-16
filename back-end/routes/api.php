@@ -5,6 +5,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\RewardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -67,3 +68,15 @@ Route::middleware('auth:api', 'role:user')->group(function () {
     Route::get('/reservations/{id}', [ReservationController::class, 'show']);
     Route::get('/reservations', [ReservationController::class, 'index']);
 });
+Route::put('/reservations/{id}/complete', [ReservationController::class, 'markAsCompleted']);
+
+
+//Rewards
+Route::get('/rewards', [RewardController::class, 'index']);
+Route::get('/rewards/{id}', [RewardController::class, 'show']);
+Route::post('/rewards', [RewardController::class, 'store']);
+Route::put('/rewards/{id}', [RewardController::class, 'update']);
+Route::delete('/rewards/{id}', [RewardController::class, 'destroy']);
+
+//Reviews
+// Route::get('/services/{serviceId}/reviews', [ReviewController::class, 'index']);

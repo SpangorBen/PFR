@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateReservationRequest extends FormRequest
+class CreateRewardRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,11 +19,12 @@ class CreateReservationRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'service_id' => 'required|exists:services,id',
-            'status' => 'required|in:pending,confirmed,canceled',
+            'title' => 'required|string|max:255',
+            'cost' => 'required|integer|min:0',
+            'availability' => 'required|in:available,unavailable',
         ];
     }
 }

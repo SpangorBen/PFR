@@ -4,32 +4,32 @@ namespace App\DTO;
 
 class RewardDTO
 {
-    public $user_id;
-    public $reservation_count;
-    public $discount_amount;
+    public $title;
+    public $cost;
+    public $availability;
 
-    public function __construct($user_id, $reservation_count, $discount_amount)
+    public function __construct($title, $cost, $availability)
     {
-        $this->user_id = $user_id;
-        $this->reservation_count = $reservation_count;
-        $this->discount_amount = $discount_amount;
+        $this->title = $title;
+        $this->cost = $cost;
+        $this->availability = $availability;
     }
 
-    public static function fromArray(array $data)
+    public static function fromRequest(array $data)
     {
         return new self(
-            $data['user_id'],
-            $data['reservation_count'],
-            $data['discount_amount']
+            $data['title'],
+            $data['cost'],
+            $data['availability']
         );
     }
 
     public function toArray()
     {
         return [
-            'user_id' => $this->user_id,
-            'reservation_count' => $this->reservation_count,
-            'discount_amount' => $this->discount_amount,
+            'title' => $this->title,
+            'cost' => $this->cost,
+            'availability' => $this->availability,
         ];
     }
 }

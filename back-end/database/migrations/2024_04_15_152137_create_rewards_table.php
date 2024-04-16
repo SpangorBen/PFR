@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->integer('cost');
+            $table->enum('availability', ['available', 'unavailable']);
             $table->timestamps();
         });
     }
