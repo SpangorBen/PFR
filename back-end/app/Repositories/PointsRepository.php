@@ -20,4 +20,15 @@ class PointsRepository implements PointsRepositoryInterface
 		$user->points -= $points;
 		$user->save();
 	}
+
+	public function getUserPoints($userId)
+    {
+        $user = User::find($userId);
+
+        if ($user) {
+            return $user->points;
+        }
+
+        return 0;
+    }
 }

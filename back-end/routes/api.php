@@ -77,6 +77,8 @@ Route::get('/rewards/{id}', [RewardController::class, 'show']);
 Route::post('/rewards', [RewardController::class, 'store']);
 Route::put('/rewards/{id}', [RewardController::class, 'update']);
 Route::delete('/rewards/{id}', [RewardController::class, 'destroy']);
+Route::post('/redeem-reward/{rewardId}', [RewardController::class, 'redeemReward']);
+
 
 //Reviews
 // Route::get('/services/{serviceId}/reviews', [ReviewController::class, 'index']);

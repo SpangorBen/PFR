@@ -87,7 +87,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function rewards()
     {
-        return $this->belongsToMany(Reward::class)
+        return $this->belongsToMany(Reward::class, 'user_reward')
                     ->withPivot('code')
                     ->withTimestamps();
     }

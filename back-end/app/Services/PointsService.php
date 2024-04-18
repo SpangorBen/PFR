@@ -20,26 +20,23 @@ class PointsService implements PointsServiceInterface
 
     public function addPointsForReservation(ReservationDTO $reservationDTO): void
     {
-        // Retrieve the reservation details from the DTO
         $serviceId = $reservationDTO->service_id;
         $userId = $reservationDTO->user_id;
 
-        // Fetch the service price from the service associated with the reservation
         $servicePrice = $this->serviceRepository->find($serviceId)->price;
-
-        // Calculate the points earned based on the service price
         $points = $servicePrice / 10;
-
-        // Add the points to the user's account
         $this->pointsRepository->addPoints($userId, $points);
     }
 
-    public function subtractPointsForReservation(Reservation $reservation): void
+    public function subtractPointsForReservation(ReservationDTO $reservation): void
     {
-        $servicePrice = $reservation->service->price;
+        // $servicePrice = $reservation->service->price;
+        $serviceId = $reservationDTO->service_id;
+        $userId = $reservationDTO->user_id;
 
+        $servicePrice = $this->serviceRepository->find($serviceId)->price;
         $points = $servicePrice / 10;
-        $userId = $reservation->user_id;
+        // $userId = $reservation->user_id;
         $this->pointsRepository->subtractPoints($userId, $points);
     }
 }

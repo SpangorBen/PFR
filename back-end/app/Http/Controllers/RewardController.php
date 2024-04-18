@@ -52,4 +52,17 @@ class RewardController extends Controller
 
         return response()->json(['message' => 'Reward deleted successfully']);
     }
+
+    public function redeemReward($rewardId): JsonResponse
+    {
+        $userId = auth()->id();
+
+        $code = $this->rewardService->redeemReward($userId, $rewardId);
+
+        if (!$code) {
+            return response()->json(['error' => 'Failed to redeem reward'], 400);
+        }
+
+        return response()->json(['code' => $code]);
+    }
 }

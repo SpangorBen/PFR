@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\DTO\RewardDTO;
 use App\Models\Reward;
+use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
@@ -62,4 +64,40 @@ class RewardRepository implements RewardRepositoryInterface
             Log::error('Error while deleting reward with ID ' . $id . ': ' . $e->getMessage());
         }
     }
+
+    public function associateCodeWithUser($userId, $rewardId, $code)
+    {
+        $user = User::find($userId);
+        if ($this->userHasRedeemedRewardThisMonth($userId, $rewardId) || $this->codeExists($code)) {
+            return null;
+        }
+        $user->rewards()->attach($rewardId, ['code' => $code]);
+        return $code;
+    }
+
+    public function codeExists($code)
+    {
+        return User::whereHas('rewards', function ($query) use ($code) {
+            $query->where('user_reward.code', $code);
+        })->exists();
+    }
+
+    public function userHasRedeemedRewardThisMonth($userId, $rewardId)
+    {
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
+
+        return User::where('id', $userId)
+            ->whereHas('rewards', function ($query) use ($rewardId, $startOfMonth, $endOfMonth) {
+                $query->where('rewards.id', $rewardId)
+                    ->whereBetween('user_reward.created_at', [$startOfMonth, $endOfMonth]);
+            })->exists();
+    }
+
+    
+
+    // public function getRedeemedRewards($userId)
+    // {
+    //     return User::find($userId)->rewards()->whereNotNull('user_reward.code')->get();
+    // }
 }
