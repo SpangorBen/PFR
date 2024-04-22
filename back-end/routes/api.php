@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RewardController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -82,3 +83,6 @@ Route::post('/redeem-reward/{rewardId}', [RewardController::class, 'redeemReward
 
 //Reviews
 // Route::get('/services/{serviceId}/reviews', [ReviewController::class, 'index']);
+
+Route::post('/category', [CategoryController::class, 'store']);
+Route::get('/categories', [CategoryController::class, 'index']);

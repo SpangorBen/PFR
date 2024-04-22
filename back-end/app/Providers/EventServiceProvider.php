@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ReservationCompleted' => [
             'App\Listeners\AddPointsForReservation',
         ],
+        'App\Events\RewardRedeemed' => [
+            'App\Listeners\SubtractPointsListener',
+        ],
     ];
 
     /**

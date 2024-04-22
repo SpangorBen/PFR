@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\DTO\RewardDTO;
+use App\Events\RewardRedeemed;
 use App\Models\Reward;
 use App\Repositories\PointsRepositoryInterface;
 use App\Repositories\RewardRepositoryInterface;
@@ -56,8 +57,7 @@ class RewardService implements RewardServiceInterface
 		$userPoints = $this->pointsRepository->getUserPoints($userId);
 
 		if ($userPoints <= $rewardCost) {
-			return $userPoints;
-			// return 'Insufficient points';
+			return 'Insufficient points';
 		}
 
 		if ($this->rewardRepository->userHasRedeemedRewardThisMonth($userId, $rewardId)) {
@@ -67,6 +67,7 @@ class RewardService implements RewardServiceInterface
 		$code = $this->generateCode();
 
 		if ($this->rewardRepository->associateCodeWithUser($userId, $rewardId, $code)) {
+			event(new RewardRedeemed($userId, $rewardCost));
 			return $code;
 		}
 
