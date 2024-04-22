@@ -7,7 +7,7 @@ use App\Models\Service;
 
 interface ServiceRepositoryInterface
 {
-    public function getAll();
+    public function getAll($userId);
 
     public function find($id);
 

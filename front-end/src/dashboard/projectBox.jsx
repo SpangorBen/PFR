@@ -1,6 +1,7 @@
 import { useState } from "react";
+import axios from "../axios";
 
-const ProjectBox = ({service}) => {
+const ProjectBox = ({service, fetchData}) => {
 
   const [showMenu, setShowMenu] = useState(false);
 
@@ -9,8 +10,18 @@ const ProjectBox = ({service}) => {
   };
 
   const handleDelete = () => {
-
-    console.log('Deleting service...');
+    axios.delete(`/services/${service.id}`, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`
+      }
+    })
+      .then(response => {
+        console.log('Service deleted successfully');
+        fetchData();
+      })
+      .catch(error => {
+        console.error('Failed to delete service:', error);
+      });
   };
 
   const formatDate = () => {

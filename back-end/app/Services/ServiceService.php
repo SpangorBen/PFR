@@ -32,7 +32,9 @@ class ServiceService implements ServiceServiceInterface
 
     public function getAll()
     {
-        return $this->serviceRepository->getAll();
+        $userId = auth()->id();
+//        $services = $this->serviceRepository->getAll($userId);
+        return $this->serviceRepository->getAll($userId);
     }
 
     public function find($id)

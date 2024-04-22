@@ -1,6 +1,6 @@
 import ProjectBox from './projectBox';
 
-function ProjectsSection({ isListView, onViewToggle, services }) {
+function ProjectsSection({ isListView, onViewToggle, services, fetchData }) {
 
   const handleViewClick = (view) => {
     onViewToggle(view);
@@ -56,14 +56,14 @@ function ProjectsSection({ isListView, onViewToggle, services }) {
       {isListView ? (
         <div className="project-boxes jsListView">
           {services.map((service) => (
-            <ProjectBox key={service.id} service={service} />
+            <ProjectBox key={service.id} service={service} fetchData={fetchData}/>
           ))}
         </div>
       ) : (
         <div className="project-boxes jsGridView">
           {services.map((service) => (
             // <div className="project-box-wrapper" key={service.id}>
-              <ProjectBox key={service.id} service={service} />
+              <ProjectBox key={service.id} service={service} fetchData={fetchData} />
             // </div>
           ))}
         </div>

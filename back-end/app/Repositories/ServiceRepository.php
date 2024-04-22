@@ -4,12 +4,13 @@ namespace App\Repositories;
 
 use App\DTO\ServiceDTO;
 use App\Models\Service;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceRepository implements ServiceRepositoryInterface
 {
-    public function getAll()
+    public function getAll($userId)
     {
-        return Service::all();
+        return Service::where('user_id', $userId)->get();
     }
 
     public function find($id)
@@ -33,7 +34,7 @@ class ServiceRepository implements ServiceRepositoryInterface
     {
         $service = Service::find($id);
 
-        if ($service) {
+        if ($service && $service->user_id === Auth::user()->id) {
             $service->delete();
         }
     }

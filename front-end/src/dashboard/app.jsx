@@ -66,7 +66,7 @@ function App() {
       <div className="app-content">
         <Sidebar />
         <>
-          <ProjectsSection isListView={isListView} services={state.services}  onViewToggle={handleViewToggle} />
+          <ProjectsSection isListView={isListView} services={state.services} onViewToggle={handleViewToggle} fetchData={fetchData} />
           <ServiceForm categories={state.categories} fetchData={fetchData}/>
         </>
         {/* {showMessageSection && <MessagesSection />} Conditionally render messages section */}
