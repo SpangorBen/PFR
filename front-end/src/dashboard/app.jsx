@@ -4,12 +4,13 @@ import Sidebar from './sideBar';
 import ProjectsSection from './projectSection';
 import axios from '../axios';
 import ServiceForm from './createService';
+import Statistics from './statistics';
 // import MessagesSection from './MessagesSection';
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isListView, setIsListView] = useState(false);
-  const [showMessageSection, setShowMessageSection] = useState(false);
+  const [toggle, setToggle] = useState(false);
   const token = sessionStorage.getItem('token');
   const [state, setState] = useState({
     services: [],
@@ -49,8 +50,8 @@ function App() {
     setIsListView(view === 'list');
   };
 
-  const handleMessagesButtonClick = () => {
-    setShowMessageSection(!showMessageSection);
+  const handleToggle = () => {
+    setToggle(!toggle);
   };
 
   useEffect(() => {
@@ -61,13 +62,17 @@ function App() {
     <div className={`app-container ${isDarkMode ? 'dark' : ''}`}> {/* Conditionally apply dark mode class */}
       <Header
         onDarkModeToggle={handleDarkModeToggle} 
-        onMessagesButtonClick={handleMessagesButtonClick} 
+        handleToggle={handleToggle} 
       />
       <div className="app-content">
         <Sidebar />
         <>
           <ProjectsSection isListView={isListView} services={state.services} onViewToggle={handleViewToggle} fetchData={fetchData} />
-          <ServiceForm categories={state.categories} fetchData={fetchData}/>
+          {toggle ? (
+            <ServiceForm categories={state.categories} fetchData={fetchData}/>
+          ) : (
+            <Statistics />
+          )}
         </>
         {/* {showMessageSection && <MessagesSection />} Conditionally render messages section */}
       </div>

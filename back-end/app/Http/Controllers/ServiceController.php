@@ -93,4 +93,9 @@ class ServiceController extends Controller
     }
     // SEARCH FILTER //
 
+    public function serviceStatistics()
+    {
+        $statistics = $this->serviceService->getServiceStatistics();
+        return response()->json($statistics);
+    }
 }

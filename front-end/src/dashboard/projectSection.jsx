@@ -16,15 +16,15 @@ function ProjectsSection({ isListView, onViewToggle, services, fetchData }) {
         <div className="projects-status">
           <div className="item-status">
             <span className="status-number">45</span>
-            <span className="status-type">In Progress</span>
+            <span className="status-type">Services</span>
           </div>
           <div className="item-status">
             <span className="status-number">24</span>
-            <span className="status-type">Upcoming</span>
+            <span className="status-type">Live Reservations</span>
           </div>
           <div className="item-status">
             <span className="status-number">62</span>
-            <span className="status-type">Total Projects</span>
+            <span className="status-type">Total Reservations</span>
           </div>
         </div>
         <div className="view-actions">

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTO\ServiceDTO;
 use App\Models\Service;
 use App\Repositories\ServiceRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceService implements ServiceServiceInterface
 {
@@ -27,6 +28,7 @@ class ServiceService implements ServiceServiceInterface
 
     public function delete($id)
     {
+        $userId = auth()->id();
         $this->serviceRepository->delete($id);
     }
 
@@ -70,6 +72,14 @@ class ServiceService implements ServiceServiceInterface
         return Service::orderBy('price', $order)
             ->get();
     }
+
+    public function getServiceStatistics()
+    {
+        $userId = Auth::id();
+
+        return $this->serviceRepository->getServiceStatistics($userId);
+    }
+
 
     // public function getWorkers(Service $service)
     // {
