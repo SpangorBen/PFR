@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, createContext } from 'react';
 import Header from './header';
 import Sidebar from './sideBar';
-import ProjectsSection from './projectSection';
+// import ProjectsSection from './projectSection';
 import axios from '../axios';
 import ServiceForm from './createService';
 import Statistics from './statistics';
+import { Outlet } from 'react-router-dom';
 // import MessagesSection from './MessagesSection';
+
+export const MyContext = createContext();
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -14,7 +17,9 @@ function App() {
   const token = sessionStorage.getItem('token');
   const [state, setState] = useState({
     services: [],
-    categories: []
+    categories: [],
+    reservations: [],
+    statistics: []
   });
 
   const fetchData = async () => { 
@@ -29,6 +34,19 @@ function App() {
     }))
   }
 
+  const fetchReservations = async () => {
+    const response = await axios.get('/worker/reservations',{
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
+    });
+    console.log(response.data);
+    setState((prev)=>({
+      ...prev,
+      reservations: response.data.data
+    }))
+  }
+
   const fetchCategories = async () => {
     const response = await axios.get('/categories',{
       headers:{
@@ -39,8 +57,32 @@ function App() {
       ...prev,
       categories: response.data.data
     }))
-    console.log(state.categories);
+    // console.log(state.categories);
   }
+
+  const fetchStatistics = async () => {
+    const response = await axios.get('/service/statistics',{
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
+    });
+    console.log(response.data);
+    setState((prev)=>({
+      ...prev,
+      statistics: response.data
+    }))
+  }
+
+  const formatDate = (dateFrom) => {
+        const date = new Date(dateFrom);
+        const dayOfWeek = date.toLocaleString('en-US', { weekday: 'short' });
+        const month = date.toLocaleString('en-US', { month: 'short' });
+        const dayOfMonth = date.toLocaleString('en-US', { day: 'numeric' });
+        const time = date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+
+        return `${dayOfWeek} ${month} ${dayOfMonth} - ${time}`;
+    };
+
 
   const handleDarkModeToggle = () => {
     setIsDarkMode(!isDarkMode);
@@ -57,21 +99,27 @@ function App() {
   useEffect(() => {
     fetchData();
     fetchCategories();
+    fetchReservations();
+    fetchStatistics();
   },[])
+
   return (
-    <div className={`app-container ${isDarkMode ? 'dark' : ''}`}> {/* Conditionally apply dark mode class */}
+    <div className={`app-container ${isDarkMode ? 'dark' : ''}`}>
       <Header
-        onDarkModeToggle={handleDarkModeToggle} 
+        onDarkModeToggle={handleDarkModeToggle}
         handleToggle={handleToggle} 
       />
       <div className="app-content">
         <Sidebar />
         <>
-          <ProjectsSection isListView={isListView} services={state.services} onViewToggle={handleViewToggle} fetchData={fetchData} />
+          {/* <ProjectsSection isListView={isListView} services={state.services} onViewToggle={handleViewToggle} fetchData={fetchData} /> */}
+          <MyContext.Provider value={{isListView:isListView, statistics:state.statistics, services:state.services, categories:state.categories, reservations:state.reservations, onViewToggle:handleViewToggle, fetchData:fetchData, formatDate:formatDate, fetchReservations:fetchReservations }}>
+            <Outlet/>
+          </MyContext.Provider>
           {toggle ? (
             <ServiceForm categories={state.categories} fetchData={fetchData}/>
           ) : (
-            <Statistics />
+            <Statistics statistics={state.statistics}/>
           )}
         </>
         {/* {showMessageSection && <MessagesSection />} Conditionally render messages section */}

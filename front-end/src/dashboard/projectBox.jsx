@@ -33,6 +33,7 @@ const ProjectBox = ({service, fetchData}) => {
 
         return `${dayOfWeek} ${month} ${dayOfMonth} - ${time}`;
     };
+
   return (
     <div 
       className="project-box-wrapper"

@@ -20,6 +20,11 @@ class ServiceController extends Controller
     }
 
     // CRUD //
+    public function all(): JsonResponse
+    {
+        $services = $this->serviceService->all();
+        return response()->json($services);
+    }
     public function index(): JsonResponse
     {
         $services = $this->serviceService->getAll();

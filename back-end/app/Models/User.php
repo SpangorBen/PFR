@@ -56,7 +56,10 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims()
     {
-        return [];
+        return [
+            'name' => $this->name,
+            'email' => $this->email,
+        ];
     }
 
     public function company()
@@ -69,10 +72,15 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Role::class);
     }
 
+//    public function services()
+//    {
+//        return $this->belongsToMany(Service::class, 'role_user', 'role_id', 'user_id')
+//                    ->where('roles.name', Role::WORKER);
+//    }
+
     public function services()
     {
-        return $this->belongsToMany(Service::class, 'role_user', 'role_id', 'user_id')
-                    ->where('roles.name', Role::WORKER);
+        return $this->hasMany(Service::class);
     }
 
     public function reservations()

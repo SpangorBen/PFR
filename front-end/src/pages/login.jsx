@@ -23,7 +23,7 @@ const Login = () => {
       sessionStorage.setItem("token", token);
       sessionStorage.setItem("logged", true);
       const decodedToken = jwtDecode(token);
-      console.log(decodedToken.role);
+      console.log(decodedToken.name);
       if (token) {
         navigate(`/`);
       }

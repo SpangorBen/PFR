@@ -15,6 +15,7 @@ class Service extends Model
         'price',
         'user_id',
         'category_id',
+        'image',
     ];
 
     public function company()
@@ -26,6 +27,11 @@ class Service extends Model
     {
         return $this->belongsToMany(User::class, 'role_user', 'user_id', 'role_id')
             ->where('roles.name', Role::WORKER);
+    }
+
+    public function worker()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function category()

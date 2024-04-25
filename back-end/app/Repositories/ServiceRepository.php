@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class ServiceRepository implements ServiceRepositoryInterface
 {
+    public function all()
+    {
+        return Service::all();
+    }
     public function getAll($userId)
     {
         return Service::where('user_id', $userId)->get();
@@ -58,15 +62,25 @@ class ServiceRepository implements ServiceRepositoryInterface
         $totalReservations = Reservation::whereHas('service', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })->count();
+        $totalPendingReservations = Reservation::whereHas('service', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->where('status', 'pending')->count();
+        $totalCompletedReservations = Reservation::whereHas('service', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->where('status', 'completed')->count();
         $services = Service::where('user_id', $userId)->withCount('reviews')->get();
         $totalReviews = $services->sum('reviews_count');
         $averageRating = $totalReviews > 0 ? Service::where('user_id', $userId)->avg('rating') : 0;
+        $reservationCompletionRate = $totalReservations > 0 ? ($totalCompletedReservations / $totalReservations) * 100 : 0;
+
 
         return [
             'total_services' => $totalServices,
             'average_price' => $averagePrice,
             'most_expensive_service' => $mostExpensiveService,
             'total_reservations' => $totalReservations,
+            'total_pending_reservations' => $totalPendingReservations,
+            'completed_reservations_ratio' => $reservationCompletionRate,
             'total_reviews' => $totalReviews,
             'average_rating' => $averageRating,
         ];

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTO\ReservationDTO;
 use App\Events\ReservationCompleted;
 use App\Repositories\ReservationRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationService implements ReservationServiceInterface
 {
@@ -44,11 +45,27 @@ class ReservationService implements ReservationServiceInterface
     {
         $reservation = $this->reservationRepository->find($reservationId);
 
-        $reservation->status = 'confirmed';
+        $reservation->status = 'completed';
         $reservationDTO = ReservationDTO::fromModel($reservation);
 
         $this->reservationRepository->update($reservationId, $reservationDTO);
 
         event(new ReservationCompleted($reservationDTO));
+    }
+
+    public function fetchReservationsWorkerId()
+    {
+        $workerId = Auth::user()->id;
+        return $this->reservationRepository->findByWorkerId($workerId);
+    }
+
+    public function acceptReservation($reservationId)
+    {
+        $this->reservationRepository->acceptReservation($reservationId);
+    }
+
+    public function rejectReservation($reservationId)
+    {
+        $this->reservationRepository->rejectReservation($reservationId);
     }
 }

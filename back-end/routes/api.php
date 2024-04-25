@@ -41,12 +41,15 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/services/{id}', [ServiceController::class, 'update']);
     Route::delete('/services/{id}', [ServiceController::class, 'destroy']);
     Route::get('/service/statistics', [ServiceController::class, 'serviceStatistics']);
-
 });
 
 Route::post('/services/search', [ServiceController::class, 'search']);
 Route::post('/services/filterByCategory', [ServiceController::class, 'filterByCategory']);
 Route::post('/services/sortByPrice', [ServiceController::class, 'sortByPrice']);
+Route::get('/worker/reservations', [ReservationController::class, 'findByWorkerId']);
+Route::post('/reservations/{id}/accept', [ReservationController::class, 'acceptReservation']);
+Route::post('/reservations/{id}/reject', [ReservationController::class, 'rejectReservation']);
+Route::get('/all/services', [ServiceController::class, 'all']);
 
 //Company
 Route::post('/company', [CompanyController::class, 'store']);
