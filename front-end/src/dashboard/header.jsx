@@ -1,6 +1,7 @@
 // import React from 'react';
 
 function Header({ onDarkModeToggle, handleToggle }) {
+  const userName = sessionStorage.getItem('name');
   return (
     <div className="app-header">
       <div className="app-header-left">
@@ -37,7 +38,7 @@ function Header({ onDarkModeToggle, handleToggle }) {
         </button>
         <button className="profile-btn">
           <img src="https://assets.codepen.io/3306515/IMG_2025.jpg" alt="profile" />
-          <span>Spangor Ben</span>
+          <span>{userName}</span>
         </button>
       </div>
       <button className="messages-btn"> 

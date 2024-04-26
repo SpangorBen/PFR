@@ -107,7 +107,7 @@ function App() {
     <div className={`app-container ${isDarkMode ? 'dark' : ''}`}>
       <Header
         onDarkModeToggle={handleDarkModeToggle}
-        handleToggle={handleToggle} 
+        handleToggle={handleToggle}
       />
       <div className="app-content">
         <Sidebar />

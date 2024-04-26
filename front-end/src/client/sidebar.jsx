@@ -9,11 +9,11 @@ const Sidebar = ({getUser}) => {
 			</div>
 			<div className="sidebar-menu">
 				<a href="#" className="sidebar-menu__link active">Services</a>
-				<a href="#" className="sidebar-menu__link">Barbeque</a>
-				<a href="#" className="sidebar-menu__link">Productivity</a>
-				<a href="#" className="sidebar-menu__link">Workout</a>
-				<a href="#" className="sidebar-menu__link">Book</a>
-				<a href="#" className="sidebar-menu__link">Snack</a>
+				<a href="#" className="sidebar-menu__link">Reservations</a>
+				<a href="#" className="sidebar-menu__link">Rewards</a>
+				<a href="#" className="sidebar-menu__link">Profile</a>
+				{/* <a href="#" className="sidebar-menu__link">Book</a>
+				<a href="#" className="sidebar-menu__link">Snack</a> */}
 			</div>
 			<label className="toggle">
 			<input type="checkbox"/>

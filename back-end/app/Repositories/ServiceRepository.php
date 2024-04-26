@@ -11,7 +11,7 @@ class ServiceRepository implements ServiceRepositoryInterface
 {
     public function all()
     {
-        return Service::all();
+        return Service::with('category')->get();
     }
     public function getAll($userId)
     {

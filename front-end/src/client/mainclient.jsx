@@ -1,4 +1,44 @@
-const MainClient = ({services}) => {
+import { useEffect, useState } from "react";
+import axios from "../axios";
+import Card from "./card";
+
+
+const MainClient = ({}) => {
+	const [stateClient, setState] = useState({
+      services: [],
+      categories: [],
+    });
+
+	const fetchCategories = async () => {
+		const response = await axios.get('/categories',{
+		headers:{
+			// Authorization: `Bearer ${token}`
+		}
+		});
+		setState((prev)=>({
+		...prev,
+		categories: response.data.data
+		}))
+    // console.log(state.categories);
+	};
+	const getServices = async () => {
+    const response = await axios.get('/all/services',{
+      headers:{
+        // Authorization: `Bearer ${token}`
+      }
+    });
+    // console.log(response.data);
+    setState((prev)=>({
+      ...prev,
+      services: response.data
+    }))
+  };
+
+  useEffect(() => {
+    getServices();
+	fetchCategories();
+  }, []);
+
 	return ( 
 		<div className="main">
 			<div className="main-header">
@@ -19,19 +59,22 @@ const MainClient = ({services}) => {
 			</div>
 				<div className="main-header-nav">
 					<a href="#" className="nav-item active">All</a>
-					<a href="#" className="nav-item">Videos</a>
-					<a href="#" className="nav-item">Notes</a>
-					<a href="#" className="nav-item">Music</a>
-					<a href="#" className="nav-item">To-do list</a>
+					{stateClient.categories ? (
+						stateClient.categories.map((category) => (
+							<a href="#" className="nav-item" key={category.id}>{category.name}</a>
+					))) : (
+						<p>Loading</p>
+					)}
 				</div>
 			<div className="main-content">
 				{/* <div className="card card-img card-1 card-main"></div> */}
-				{services ? (
-					services.map((service) => (
-					<div className="card card-img" key={service.id}>
-						<h3>{service.name}</h3>
-						<img src="https://plus.unsplash.com/premium_photo-1682130098765-1952715f456a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt=""/>
-					</div>
+				{stateClient.services ? (
+					stateClient.services.map((service) => (
+					<Card key={service.id} service={service} />
+					// <div className="card card-img" key={service.id}>
+					// 	<h3>{service.name}</h3>
+					// 	<img src="https://plus.unsplash.com/premium_photo-1682130098765-1952715f456a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt=""/>
+					// </div>
 				))) : (
 					<p>Loading</p>
 				)}

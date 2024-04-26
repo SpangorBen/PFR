@@ -15,10 +15,10 @@ const ClientApp = () => {
       categories: [],
     });
 
-  const handleMenuItemClick = (path) => {
-    // setActiveMenuItem(path);
-    // ... (additional logic, e.g., updating MainClient based on activeMenuItem)
-  };
+  // const handleMenuItemClick = (path) => {
+  //   // setActiveMenuItem(path);
+  //   // ... (additional logic, e.g., updating MainClient based on activeMenuItem)
+  // };
 
   const handleNavItemClick = (path) => {
     setActiveNavItem(path); 
@@ -55,7 +55,7 @@ const ClientApp = () => {
   useEffect(() => {
     getServices();
   }, []);
-    console.log(stateClient.services);
+  console.log(stateClient.services);
 
 	return (
 		<div className="client-app">
