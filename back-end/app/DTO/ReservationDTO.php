@@ -9,12 +9,14 @@ class ReservationDTO
     public $user_id;
     public $service_id;
     public $status;
+    public $date;
 
-    public function __construct($user_id, $service_id, $status)
+    public function __construct($user_id, $service_id, $status, $date)
     {
         $this->user_id = $user_id;
         $this->service_id = $service_id;
         $this->status = $status;
+        $this->date = $date;
     }
 
     public static function fromRequest(array $data, $userId)
@@ -22,7 +24,8 @@ class ReservationDTO
         return new self(
             $userId,
             $data['service_id'],
-            $data['status']
+            $data['status'],
+            $data['date']
         );
     }
 
@@ -31,7 +34,8 @@ class ReservationDTO
         return new self(
             $reservation->user_id,
             $reservation->service_id,
-            $reservation->status
+            $reservation->status,
+            $reservation->date,
         );
     }
 
@@ -41,6 +45,7 @@ class ReservationDTO
             'user_id' => $this->user_id,
             'service_id' => $this->service_id,
             'status' => $this->status,
+            'date' => $this->date,
         ];
-    } 
+    }
 }

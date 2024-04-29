@@ -2071,3 +2071,101 @@ border-color: transparent transparent #767EEF transparent;
 }
 
 /* Client Service status */
+
+/* Reward Card */
+
+.card-reward {
+ width: 250px;
+ height: 254px;
+ background: #3405a3;
+ border-radius: 15px;
+ box-shadow: 1px 5px 60px 0px #100a886b;
+}
+
+.card-reward .card-border-top {
+ width: 60%;
+ height: 3%;
+ background: #6b64f3;
+ margin: auto;
+ border-radius: 0px 0px 15px 15px;
+}
+
+.card-reward span {
+ font-weight: 600;
+ color: white;
+ text-align: center;
+ display: block;
+ padding-top: 10px;
+ font-size: 16px;
+}
+
+.card-reward .job {
+ font-weight: 400;
+ color: white;
+ display: block;
+ text-align: center;
+ padding-top: 3px;
+ font-size: 12px;
+}
+
+.card-reward .img {
+ width: 70px;
+ height: 80px;
+ background: #6b64f3;
+ background-image: url('https://t3.ftcdn.net/jpg/01/09/01/74/240_F_109017452_crYHCErJMJU1l4IL6LaxtaBbz3i4Xg20.jpg');
+ background-size: cover;
+ background-position: center;
+ border-radius: 15px;
+ margin: auto;
+ margin-top: 25px;
+}
+
+.card-reward button {
+ padding: 8px 25px;
+ display: block;
+ margin: auto;
+ border-radius: 8px;
+ border: none;
+ margin-top: 30px;
+ background: #6b64f3;
+ color: white;
+ font-weight: 600;
+}
+
+.card-reward button:hover {
+ background: #534bf3;
+}
+
+
+/* Completed Button */
+
+.completed {
+  --button_radius: 0.75em;
+  --button_color: #e8e8e8;
+  --button_outline_color: #000000;
+  font-size: 17px;
+  font-weight: bold;
+  border: none;
+  border-radius: var(--button_radius);
+  background: var(--button_outline_color);
+}
+
+.button_top {
+  display: block;
+  box-sizing: border-box;
+  border: 2px solid var(--button_outline_color);
+  border-radius: var(--button_radius);
+  padding: 0.75em 1.5em;
+  background: var(--button_color);
+  color: var(--button_outline_color);
+  transform: translateY(-0.2em);
+  transition: transform 0.1s ease;
+}
+
+.completed:hover .button_top {
+  transform: translateY(-0.33em);
+}
+
+.completed:active .button_top {
+  transform: translateY(0);
+}

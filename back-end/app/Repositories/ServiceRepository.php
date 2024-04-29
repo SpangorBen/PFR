@@ -80,7 +80,7 @@ class ServiceRepository implements ServiceRepositoryInterface
             'most_expensive_service' => $mostExpensiveService,
             'total_reservations' => $totalReservations,
             'total_pending_reservations' => $totalPendingReservations,
-            'completed_reservations_ratio' => $reservationCompletionRate,
+            'completed_reservations_ratio' => round($reservationCompletionRate, 2),
             'total_reviews' => $totalReviews,
             'average_rating' => $averageRating,
         ];

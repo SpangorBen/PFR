@@ -56,7 +56,7 @@ class RewardService implements RewardServiceInterface
 
 		$userPoints = $this->pointsRepository->getUserPoints($userId);
 
-		if ($userPoints <= $rewardCost) {
+		if ($userPoints < $rewardCost) {
 			return 'Insufficient points';
 		}
 

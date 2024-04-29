@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
 	const name = sessionStorage.getItem('name');
@@ -13,7 +13,7 @@ const Sidebar = () => {
 			<div className="sidebar-menu">
 				<NavLink end to={"/client"} className="sidebar-menu__link">Services</NavLink>
 				<NavLink end to={"/client/reservations"} className="sidebar-menu__link">Reservations</NavLink>
-				<a href="#" className="sidebar-menu__link">Rewards</a>
+				<NavLink end to={"/client/rewards"} className="sidebar-menu__link">Rewards</NavLink>
 				<a href="#" className="sidebar-menu__link">Profile</a>
 				{/* <a href="#" className="sidebar-menu__link">Book</a>
 				<a href="#" className="sidebar-menu__link">Snack</a> */}

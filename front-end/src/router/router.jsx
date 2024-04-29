@@ -9,6 +9,7 @@ import ProjectsSection from "../dashboard/projectSection";
 import ClientApp from "../client/clientApp";
 import MainClient from "../client/mainclient";
 import ClientReservation from "../client/reservations";
+import Reward from "../client/rewards";
 
 export const router = createBrowserRouter([
     {
@@ -57,6 +58,10 @@ export const router = createBrowserRouter([
                 path: 'reservations',
                 element: <ClientReservation/>
             },
+            {
+                path: 'rewards',
+                element: <Reward/>
+            }
         ]
     },
 

@@ -42,7 +42,7 @@ const fetchReservations = async () => {
               </select>
               <button
                 className="border border-gray-300 rounded-md text-gray-600 px-3 py-[9px] bg-white hover:border-gray-400 focus:outline-none text-xs
-        focus:ring-0"
+            focus:ring-0"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -69,6 +69,7 @@ const fetchReservations = async () => {
                   <th className="px-4 py-3">Service</th>
                   <th className="px-4 py-3">Status</th>
                   <th className="px-4 py-3">Date of Reservation</th>
+                  <th className="px-4 py-3">Rating</th>
                 </tr>
               </thead>
               <tbody className="text-sm font-normal text-slate-200 text-center">
@@ -83,6 +84,7 @@ const fetchReservations = async () => {
                         <div className="text-xs text-gray-500">10 days</div>
                       </div>
                     </td>
+                    <td className=""><button className="fa fa-star"></button></td>
                   </tr>
                 ))}
               </tbody>

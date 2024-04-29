@@ -76,7 +76,6 @@ Route::middleware('auth:api', 'role:user')->group(function () {
 });
 Route::put('/reservations/{id}/complete', [ReservationController::class, 'markAsCompleted']);
 
-
 //Rewards
 Route::get('/rewards', [RewardController::class, 'index']);
 Route::get('/rewards/{id}', [RewardController::class, 'show']);
@@ -85,6 +84,7 @@ Route::put('/rewards/{id}', [RewardController::class, 'update']);
 Route::delete('/rewards/{id}', [RewardController::class, 'destroy']);
 Route::post('/redeem-reward/{rewardId}', [RewardController::class, 'redeemReward']);
 
+Route::get('user/points', [ReservationController::class, 'getPoints']);
 
 //Reviews
 // Route::get('/services/{serviceId}/reviews', [ReviewController::class, 'index']);

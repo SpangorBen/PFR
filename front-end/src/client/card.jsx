@@ -47,7 +47,6 @@ function Card({service, formatDate}) {
         <div className="color-overlay"></div>
       </div>
 
-
   );
 }
 

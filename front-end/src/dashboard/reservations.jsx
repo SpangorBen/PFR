@@ -3,7 +3,7 @@ import { MyContext } from "./app.jsx";
 import axios from "../axios.jsx";
 
 const Reservations = () => {
-  const { categories, reservations, formatDate, fetchReservations } = useContext(MyContext);
+  const { reservations, formatDate, fetchReservations } = useContext(MyContext);
 
   const acceptReservation = async (reservationId ) => {
     try {
@@ -17,13 +17,22 @@ const Reservations = () => {
   const rejectReservation = async (reservationId ) => {
     try {
       await axios.post(`/reservations/${reservationId}/reject`);
-      // Optionally, you can update the UI here
 		fetchReservations();
 
     } catch (error) {
       console.error('Error rejecting reservation:', error);
     }
   };
+
+  const completeReservation = async (reservationId ) => {
+    try {
+      await axios.put(`/reservations/${reservationId}/complete`);
+      fetchReservations();
+
+    } catch (error) {
+      console.error('Error completing reservation:', error);
+    }
+  }
 
   return (
     <div className="projects-section">
@@ -32,41 +41,8 @@ const Reservations = () => {
           <div className="flex justify-between w-full px-4 py-2 items-center">
             <div className="text-xl font-bold">Reservations</div>
           </div>
-          {/* <ul className="flex flex-row space-x-2 sm:space-x-6 md:space-x-12 mt-4 mx-4 items-center border-b border-gray-300 overflow-auto text-sm">
-            {categories.map((category) => (
-              <li className="group" key={category.id}>
-                <a href="#">{category.name}</a>
-                <div className="h-1 bg-blue-500 scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"></div>
-              </li>
-              // <option key={category.id} value={category.id}>{category.name}</option>
-            ))}
-            <li className=" text-blue-500 group">
-              <a href="#">Indoor Plant</a>
-              <div className="h-1 bg-blue-500 scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"></div>
-            </li>
-          </ul> */}
+
           <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:justify-between w-full px-4 mb-2 mt-4 items-center">
-            {/* <div className="flex bg-gray-100 w-full sm:w-2/5 items-center rounded-lg">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 mx-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-              <input
-                className="w-full bg-gray-100 outline-none border-transparent focus:border-transparent focus:ring-0 rounded-lg text-sm"
-                type="text"
-                placeholder="Search a product..."
-              />
-            </div> */}
             <div></div>
             <div className="flex-row space-x-2 items-center ">
               <select
@@ -130,22 +106,22 @@ const Reservations = () => {
                       </div>
                     </td>
                     <td className="px-4 py-4">
-						{/* <div className="radio-input">
-							<label className="label">
-								<input type="radio" name="radio"/>
-								<span className="check"></span>
-							</label>
-							<label className="label">
-								<input type="radio" name="radio"/>
-								<span className="check"></span>
-							</label>
-						</div> */}
-						<center className="reject-accept">
-							{/* <br/> */}
-							<button className="accept" onClick={()=>acceptReservation(reservation.id)}> <span className="fa fa-check"></span></button>
-							<button className="deny" onClick={()=>rejectReservation(reservation.id)}> <span className="fa fa-close"></span></button>
-						</center>
-					</td>
+                      <center className="reject-accept">
+                      { reservation.status === 'pending' ? (
+                        <>
+                          <button className="accept" onClick={()=>acceptReservation(reservation.id)}> <span className="fa fa-check"></span></button>
+                          <button className="deny" onClick={()=>rejectReservation(reservation.id)}> <span className="fa fa-close"></span></button>
+                        </>
+                        ) : reservation.status === 'confirmed' ?(
+                          <button className="completed" onClick={()=>completeReservation(reservation.id)}> <span className="button_top"> Complete</span></button>
+                        ) : reservation.status === 'cancelled' ? (
+                          <h2>Canceled</h2>
+                        ) : (
+                          <h2>Completed</h2>
+                        )
+                      }
+                      </center>
+                    </td>
                   </tr>
                 ))}
                 ;

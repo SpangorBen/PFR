@@ -68,4 +68,9 @@ class ReservationService implements ReservationServiceInterface
     {
         $this->reservationRepository->rejectReservation($reservationId);
     }
+
+    public function getPoints(){
+        $userId = Auth::user()->id;
+        return $this->reservationRepository->getPoints($userId);
+    }
 }

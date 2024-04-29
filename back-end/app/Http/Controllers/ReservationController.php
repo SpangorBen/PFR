@@ -93,4 +93,14 @@ class ReservationController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function getPoints()
+    {
+        try {
+            $points = $this->reservationService->getPoints();
+            return response()->json(['data' => $points], 200);
+        } catch (\Exception $e){
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 }

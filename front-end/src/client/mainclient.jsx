@@ -6,6 +6,8 @@ import { ClientContext } from "./clientApp";
 
 const MainClient = () => {
 	const  { formatDate, token } = useContext(ClientContext);
+	// const [showModal, setShowModal] = useState(false);
+
 	const [stateClient, setState] = useState({
       services: [],
       categories: [],
@@ -59,15 +61,15 @@ const MainClient = () => {
 
 	return ( 
 		<>
-				<div className="main-header-nav">
-					<button type="button" onClick={getServices} className="nav-item active">All</button>
-					{stateClient.categories ? (
-						stateClient.categories.map((category) => (
-							<button type="button" onClick={()=>fetchByCategory(category.id)} className="nav-item" key={category.id}>{category.name}</button>
-					))) : (
-						<p>Loading</p>
-					)}
-				</div>
+			<div className="main-header-nav">
+				<button type="button" onClick={getServices} className="nav-item active">All</button>
+				{stateClient.categories ? (
+					stateClient.categories.map((category) => (
+						<button type="button" onClick={()=>fetchByCategory(category.id)} className="nav-item" key={category.id}>{category.name}</button>
+				))) : (
+					<p>Loading</p>
+				)}
+			</div>
 			<div className="main-content">
 				{stateClient.services ? (
 					stateClient.services.map((service) => (

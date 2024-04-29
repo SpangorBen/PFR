@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\DTO\ReservationDTO;
 use App\Models\Reservation;
+use App\Models\User;
 
 class ReservationRepository implements ReservationRepositoryInterface
 {
@@ -66,5 +67,13 @@ class ReservationRepository implements ReservationRepositoryInterface
         } else {
             throw new \Exception('This reservation is not pending, so it cannot be rejected');
         }
+    }
+
+    public function getPoints($userId)
+    {
+        $user = User::findOrFail($userId);
+
+        $points = $user->points;
+        return $points;
     }
 }
