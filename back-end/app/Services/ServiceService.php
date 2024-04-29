@@ -69,6 +69,7 @@ class ServiceService implements ServiceServiceInterface
     public function filterByCategory(int $categoryId)
     {
         return Service::where('category_id', $categoryId)
+            ->with('category')
             ->get();
     }
 

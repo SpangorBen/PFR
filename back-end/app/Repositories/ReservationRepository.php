@@ -30,15 +30,13 @@ class ReservationRepository implements ReservationRepositoryInterface
 
     public function findAll($userId)
     {
-        return Reservation::where('user_id', $userId)->get();
+        return Reservation::where('user_id', $userId)
+            ->with('user', 'service')
+            ->get();
     }
 
     public function findByWorkerId($workerId)
     {
-//        return Reservation::whereHas('service', function ($query) use ($workerId) {
-//            $query->where('user_id', $workerId);
-//        })->get();
-
         return Reservation::whereHas('service', function ($query) use ($workerId) {
             $query->where('user_id', $workerId)
                 ->with('category');

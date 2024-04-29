@@ -32,7 +32,7 @@ const Reservations = () => {
           <div className="flex justify-between w-full px-4 py-2 items-center">
             <div className="text-xl font-bold">Reservations</div>
           </div>
-          <ul className="flex flex-row space-x-2 sm:space-x-6 md:space-x-12 mt-4 mx-4 items-center border-b border-gray-300 overflow-auto text-sm">
+          {/* <ul className="flex flex-row space-x-2 sm:space-x-6 md:space-x-12 mt-4 mx-4 items-center border-b border-gray-300 overflow-auto text-sm">
             {categories.map((category) => (
               <li className="group" key={category.id}>
                 <a href="#">{category.name}</a>
@@ -44,19 +44,7 @@ const Reservations = () => {
               <a href="#">Indoor Plant</a>
               <div className="h-1 bg-blue-500 scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"></div>
             </li>
-            {/* <li className="group">
-              <a href="#">Outside Plant</a>
-              <div className="h-1 bg-blue-500 scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"></div>
-            </li>
-            <li className="group">
-              <a href="#">Flower Pots</a>
-              <div className="h-1 bg-blue-500 scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"></div>
-            </li>
-            <li className="group">
-              <a href="#">Fertilizers and Soil</a>
-              <div className="h-1 bg-blue-500 scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"></div>
-            </li> */}
-          </ul>
+          </ul> */}
           <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:justify-between w-full px-4 mb-2 mt-4 items-center">
             {/* <div className="flex bg-gray-100 w-full sm:w-2/5 items-center rounded-lg">
               <svg

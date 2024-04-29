@@ -26,6 +26,7 @@ const Login = () => {
       sessionStorage.setItem("name", decodedToken.name);
       sessionStorage.setItem("email", decodedToken.email);
       sessionStorage.setItem("role", decodedToken.role);
+      sessionStorage.setItem("points", decodedToken.points);
       // console.log(decodedToken.role_id);
       if (token) {
         navigate(`/`);

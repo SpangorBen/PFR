@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "../axios";
 import Card from "./card";
+import { ClientContext } from "./clientApp";
 
 
-const MainClient = ({}) => {
+const MainClient = () => {
+	const  { formatDate, token } = useContext(ClientContext);
 	const [stateClient, setState] = useState({
       services: [],
       categories: [],
+	  categorySelected : ''
     });
 
 	const fetchCategories = async () => {
@@ -21,6 +24,7 @@ const MainClient = ({}) => {
 		}))
     // console.log(state.categories);
 	};
+
 	const getServices = async () => {
     const response = await axios.get('/all/services',{
       headers:{
@@ -34,55 +38,45 @@ const MainClient = ({}) => {
     }))
   };
 
+	const fetchByCategory = async (id) => {
+		try {
+			const response = await axios.post('/services/filterByCategory', { category_id: id });
+
+			setState((prev) => ({
+				...prev,
+				services: response.data
+			}));
+		} catch (error) {
+			console.error('Error fetching services by category:', error);
+		}
+	};
+	// console.log(stateClient.services);
+
   useEffect(() => {
     getServices();
 	fetchCategories();
   }, []);
 
 	return ( 
-		<div className="main">
-			<div className="main-header">
-				<div className="main-header__title">Productivity</div>
-				<div className="main-header__avatars">
-					<img className="main-header__avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="avatar"/>
-					<img className="main-header__avatar" src="https://images.unsplash.com/photo-1683392969197-17547ac3e06e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80" alt="avatar"/>
-					<img className="main-header__avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1760&q=80" alt="avatar"/>
-					<button className="add-button"><svg fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-				<path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-				</svg></button>
-				</div>
-				<button className="main-header__add">
-					<svg fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-				<path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
-				</svg>
-				</button>
-			</div>
+		<>
 				<div className="main-header-nav">
-					<a href="#" className="nav-item active">All</a>
+					<button type="button" onClick={getServices} className="nav-item active">All</button>
 					{stateClient.categories ? (
 						stateClient.categories.map((category) => (
-							<a href="#" className="nav-item" key={category.id}>{category.name}</a>
+							<button type="button" onClick={()=>fetchByCategory(category.id)} className="nav-item" key={category.id}>{category.name}</button>
 					))) : (
 						<p>Loading</p>
 					)}
 				</div>
 			<div className="main-content">
-				{/* <div className="card card-img card-1 card-main"></div> */}
 				{stateClient.services ? (
 					stateClient.services.map((service) => (
-					<Card key={service.id} service={service} />
-					// <div className="card card-img" key={service.id}>
-					// 	<h3>{service.name}</h3>
-					// 	<img src="https://plus.unsplash.com/premium_photo-1682130098765-1952715f456a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt=""/>
-					// </div>
+					<Card formatDate={formatDate} key={service.id} service={service} />
 				))) : (
 					<p>Loading</p>
 				)}
-				<div className="card card-img">
-					<img src="https://plus.unsplash.com/premium_photo-1681302987702-39acb4833fd8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXxnZjgtZDJuOTRXNHx8ZW58MHx8fHx8" alt="" />
-				</div>
 			</div>
-		</div>
+		</>
 	);
 }
  

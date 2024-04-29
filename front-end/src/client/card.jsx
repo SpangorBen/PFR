@@ -1,7 +1,12 @@
 import axios from "../axios";
 
-function Card({service}) {
-    const limitedDescription = service.description.substring(0, 20);
+function Card({service, formatDate}) {
+
+  
+    if (!service) {
+        return <div>No service data available</div>;
+    }
+    const limitedDescription = service.description.substring(0, 40);
 
     const reserve = async () => {
         try {
@@ -34,7 +39,7 @@ function Card({service}) {
           <ul className="utility-list">
             <li><span className="licon icon-like"></span><a href="#">{service.price}</a></li>
             {/* <li><span className="licon icon-com"></span><a href="#">12</a></li> */}
-            <li><span className="licon icon-dat"></span>{service.created_at}</li>
+            <li><span className="licon icon-dat"></span>{formatDate(service.created_at)}</li>
             {/* <li><span className="licon icon-tag"></span><a href="#">Photos</a>, <a href="#">Nice</a></li> */}
           </ul>
         </div>
