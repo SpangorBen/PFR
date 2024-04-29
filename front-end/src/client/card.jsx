@@ -1,6 +1,6 @@
 import axios from "../axios";
 
-function Card({service, formatDate}) {
+function Card({service, formatDate, openModal}) {
 
   
     if (!service) {
@@ -22,8 +22,11 @@ function Card({service, formatDate}) {
         } catch (error) {
             console.error('Reservation failed!', error.response.data);
         }
-
     }
+
+  // handleNvaigation = () => {
+  //   Navigate
+  // }
 
   return (
       <div className="blog-card spring-fever">
@@ -33,14 +36,12 @@ function Card({service, formatDate}) {
         </div>
         <div className="card-info">
         {limitedDescription}...
-          <button onClick={reserve}>Reserve<span className="licon icon-arr icon-black"></span></button>
+          <button onClick={openModal}>Reserve<span className="licon icon-arr icon-black"></span></button>
         </div>
         <div className="utility-info">
           <ul className="utility-list">
-            <li><span className="licon icon-like"></span><a href="#">{service.price}</a></li>
-            {/* <li><span className="licon icon-com"></span><a href="#">12</a></li> */}
+            <li><span className="licon icon-like"></span>{service.price}</li>
             <li><span className="licon icon-dat"></span>{formatDate(service.created_at)}</li>
-            {/* <li><span className="licon icon-tag"></span><a href="#">Photos</a>, <a href="#">Nice</a></li> */}
           </ul>
         </div>
         <div className="gradient-overlay"></div>

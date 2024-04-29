@@ -5,7 +5,7 @@ import { ClientContext } from "./clientApp";
 
 
 const MainClient = () => {
-	const  { formatDate, token } = useContext(ClientContext);
+	const  { formatDate, token, openModal } = useContext(ClientContext);
 	// const [showModal, setShowModal] = useState(false);
 
 	const [stateClient, setState] = useState({
@@ -73,7 +73,7 @@ const MainClient = () => {
 			<div className="main-content">
 				{stateClient.services ? (
 					stateClient.services.map((service) => (
-					<Card formatDate={formatDate} key={service.id} service={service} />
+					<Card formatDate={formatDate} key={service.id} service={service} openModal={openModal}/>
 				))) : (
 					<p>Loading</p>
 				)}

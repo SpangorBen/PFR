@@ -59,20 +59,12 @@ const ClientApp = () => {
 				<Sidebar/>
         <div className="main">
           <div className="main-header">
-          <div className="main-header__title">Welcome dear client</div>
-          <div className="main-header__avatars">
-              {/* <button className="add-button"><svg fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg></button> */}
+            <div className="main-header__title">Welcome dear client</div>
+            <div className="main-header__avatars">
             </div>
             <h2 className="main-header__add">{points.points} Points</h2>
-            {/* <button className="main-header__add">
-              <svg fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
-            </svg>
-            </button> */}
           </div>
-          <ClientContext.Provider value={{ formatDate:formatDate, token:token}}>
+          <ClientContext.Provider value={{ formatDate:formatDate, token:token,openModal:openModal}}>
             <Outlet/>
           </ClientContext.Provider>
           {/* <MainClient onNavItemClick={handleNavItemClick} onCardClick={handleCardClick}/> */}
